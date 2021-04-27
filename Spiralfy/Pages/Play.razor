@@ -1,7 +1,29 @@
 ﻿@page "/play"
+@using System.Text.Json
+@inject IConfiguration Configuration
 
 <h1>Play</h1>
 
+<ul>
+@foreach(var d in data)
+    {
+        <li>@d</li>
+    }
+</ul>
+
 @code {
+    List<string> data = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var spotify = new SpotifyClient(Configuration["SpotifyToken"]);
+
+        var track = await spotify.Tracks.Get("4cOdK2wGLETKBW3PvgPWqT");
+        data.Add(track.Name);
+        data.AddRange(track.Artists.Select(a=>a.Name));
+        data.Add(track.Album.Name);
+    }
 
 }
