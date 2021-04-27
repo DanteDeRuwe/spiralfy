@@ -1,4 +1,4 @@
-﻿@using System.Text.Json;
+@using System.Text.Json;
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Spiralfy</a>
@@ -19,7 +19,7 @@
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="@nav">
-                   @nav
+                    @nav
                 </NavLink>
             </li>
         }
@@ -40,11 +40,7 @@
     private string[] navlinks = typeof(App).Assembly.GetTypes().SelectMany(t => GetFirstAttributeValue(t, "RouteAttribute")).ToArray();
 
 
-    public static IEnumerable<string> GetFirstAttributeValue
-    (
-       Type type,
-       string attributeName
-    )
+    public static IEnumerable<string> GetFirstAttributeValue(Type type, string attributeName)
     {
         return type
             .GetCustomAttributesData()
