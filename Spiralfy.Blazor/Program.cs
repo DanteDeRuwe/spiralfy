@@ -2,9 +2,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Spiralfy.Core;
+using Spiralfy.Core.Interfaces;
 using SpotifyAPI.Web;
 
-namespace Spiralfy
+namespace Spiralfy.Blazor
 {
     public class Program
     {
@@ -26,7 +28,9 @@ namespace Spiralfy
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped(_ => new SpotifyClient(_configuration["SpotifyToken"]));
+            services.AddScoped<ISpotifyClient>(_ => new SpotifyClient(_configuration["SpotifyToken"]));
+            services.AddScoped<ISpiralfyPlayer, SpiralfyPlayer>();
+            services.AddScoped<ISpiralfyService, SpiralfyService>();
         }
 
         private static void Configure(WebAssemblyHost host) { }

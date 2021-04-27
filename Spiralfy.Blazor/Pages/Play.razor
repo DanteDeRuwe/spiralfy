@@ -1,14 +1,23 @@
 ﻿@page "/play"
-@inject SpotifyClient Spotify
+@using Spiralfy.Core.Interfaces
+@inject ISpiralfyPlayer Player
+@inject ISpiralfyService Service
 
 <h1>Play</h1>
 
-@if (!loaded)
+<p>Hi @username!</p>
+
+@if (currentlyPlaying is null)
 {
+    <small>
+        You should try to play something!
+        @if (surpriseTrack is not null)
+        {
+            <span>You can also click <a href="" @onclick:preventDefault @onclick="PlaySurprise">here</a> for a surprise!</span>
+        }
+    </small>
     return;
 }
-<p>Account @username</p>
-
 <div class="card" style="width: 18rem;">
     @switch (currentlyPlaying)
     {
@@ -36,70 +45,35 @@
         <button @onclick="PlayPause" class="btn btn-primary px-4">
             <img src="https://api.iconify.design/fa-solid:@(playing ? "pause" : "play").svg?height=16&color=%23ffffff"/>
         </button>
-        <button @onclick="() => PlayTrack(surpriseTrack)" class="btn btn-light px-4">
+        <button @onclick="PlaySurprise" class="btn btn-light px-4">
             <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16"/>
         </button>
     </div>
 </div>
 
 @code {
-    bool loaded;
-    bool playing;
     string username;
+    bool playing;
     private IPlayableItem currentlyPlaying;
     private IPlayableItem surpriseTrack;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        playing = await IsPlaying();
-        currentlyPlaying = await GetCurrentlyPlaying();
-        surpriseTrack = await Spotify.Tracks.Get("4cOdK2wGLETKBW3PvgPWqT");
-        username = (await Spotify.UserProfile.Current()).DisplayName;
-        loaded = true;
+        surpriseTrack = await Service.GetTrack("4cOdK2wGLETKBW3PvgPWqT");
+        username = (await Service.GetCurrentUser()).DisplayName;
+        playing = await Player.IsPlaying();
+        currentlyPlaying = await Player.GetCurrentlyPlaying();
     }
 
-    private async Task<IPlayableItem> GetCurrentlyPlaying()
+    async Task PlaySurprise()
     {
-        return (await Spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest())).Item;
-    }
-
-    async Task<bool> IsPlaying()
-    {
-        var pb = await Spotify.Player.GetCurrentPlayback();
-        return pb?.IsPlaying ?? false;
+        await Player.Play(surpriseTrack);
+        playing = true;
     }
 
     async Task PlayPause()
     {
-        playing = await IsPlaying();
-        if (playing)
-        {
-            await Spotify.Player.PausePlayback();
-        }
-        else
-        {
-            await Spotify.Player.ResumePlayback();
-        }
-        playing = !playing;
+        playing = await Player.PlayPause();
     }
-
-    async Task PlayTrack(IPlayableItem item)
-    {
-        var uri = item switch
-        {
-            FullTrack t => t.Uri,
-            FullEpisode e => e.Uri,
-            _ => throw new ArgumentException("item has no valid Uri")
-            };
-
-        var req = new PlayerResumePlaybackRequest
-        {
-            Uris = new List<string> { uri }
-        };
-        await Spotify.Player.ResumePlayback(req);
-        currentlyPlaying = item;
-        playing = true;
-    }
-
 }
