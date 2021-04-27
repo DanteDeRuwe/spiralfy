@@ -1,28 +1,105 @@
 ﻿@page "/play"
-@inject IConfiguration Configuration
+@inject SpotifyClient Spotify
 
 <h1>Play</h1>
 
-<ul>
-    @foreach (var d in data)
+@if (!loaded)
+{
+    return;
+}
+<p>Account @username</p>
+
+<div class="card" style="width: 18rem;">
+    @switch (currentlyPlaying)
     {
-        <li>@d</li>
+        case FullTrack track:
+            <img class="card-img-top" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="">
+            <div class="card-body">
+                <div>
+                    <h4 class="card-title">@track.Name</h4>
+                    <p>@track.Album.Name</p>
+                    <small>@string.Join(", ", track.Artists.Select(a => a.Name))</small>
+                </div>
+            </div>
+            break;
+        case FullEpisode episode:
+            <img class="card-img-top" src="@episode.Images.First().Url" alt="" width="200" height="200">
+            <div class="card-body">
+                <div>
+                    <h4>@episode.Name</h4>
+                    <small>@episode.Description</small>
+                </div>
+            </div>
+            break;
     }
-</ul>
+    <div class="d-flex justify-content-around mb-2">
+        <button @onclick="PlayPause" class="btn btn-primary px-4">
+            <img src="https://api.iconify.design/fa-solid:@(playing ? "pause" : "play").svg?height=16&color=%23ffffff"/>
+        </button>
+        <button @onclick="() => PlayTrack(surpriseTrack)" class="btn btn-light px-4">
+            <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16"/>
+        </button>
+    </div>
+</div>
 
 @code {
-    List<string> data = new();
+    bool loaded;
+    bool playing;
+    string username;
+    private IPlayableItem currentlyPlaying;
+    private IPlayableItem surpriseTrack;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        playing = await IsPlaying();
+        currentlyPlaying = await GetCurrentlyPlaying();
+        surpriseTrack = await Spotify.Tracks.Get("4cOdK2wGLETKBW3PvgPWqT");
+        username = (await Spotify.UserProfile.Current()).DisplayName;
+        loaded = true;
+    }
 
-        var spotify = new SpotifyClient(Configuration["SpotifyToken"]);
+    private async Task<IPlayableItem> GetCurrentlyPlaying()
+    {
+        return (await Spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest())).Item;
+    }
 
-        var track = await spotify.Tracks.Get("4cOdK2wGLETKBW3PvgPWqT");
-        data.Add(track.Name);
-        data.AddRange(track.Artists.Select(a => a.Name));
-        data.Add(track.Album.Name);
+    async Task<bool> IsPlaying()
+    {
+        var pb = await Spotify.Player.GetCurrentPlayback();
+        return pb?.IsPlaying ?? false;
+    }
+
+    async Task PlayPause()
+    {
+        playing = await IsPlaying();
+        if (playing)
+        {
+            await Spotify.Player.PausePlayback();
+        }
+        else
+        {
+            await Spotify.Player.ResumePlayback();
+        }
+        playing = !playing;
+    }
+
+    async Task PlayTrack(IPlayableItem item)
+    {
+        var uri = item switch
+        {
+            FullTrack t => t.Uri,
+            FullEpisode e => e.Uri,
+            _ => throw new ArgumentException("item has no valid Uri")
+            };
+
+        var req = new PlayerResumePlaybackRequest
+        {
+            Uris = new List<string> { uri }
+        };
+        await Spotify.Player.ResumePlayback(req);
+        currentlyPlaying = item;
+        playing = true;
     }
 
 }
