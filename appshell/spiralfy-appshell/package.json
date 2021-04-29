@@ -6,7 +6,9 @@
     "piral"
   ],
   "dependencies": {
-    "piral": "0.13.2"
+    "piral": "^0.13.2",
+    "blazor": "next",
+    "piral-blazor": "next"
   },
   "scripts": {
     "start": "piral debug",
