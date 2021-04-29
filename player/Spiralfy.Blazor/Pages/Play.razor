@@ -1,4 +1,4 @@
-@attribute [PiralExtension("homepage")]
+﻿@attribute [PiralExtension("homepage")]
 @using Spiralfy.Core.Interfaces
 @using System.Timers
 @using Piral.Blazor.Utils
@@ -51,8 +51,14 @@
             break;
     }
     <div class="d-flex justify-content-around mb-2">
+        <button @onclick="Previous" class="Button px-4">
+            <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff"/>
+        </button>
         <button @onclick="PlayPause" class="Button px-4" data-primary="true">
             <img src="https://api.iconify.design/fa-solid:@(_playing ? "pause" : "play").svg?height=16&color=%23ffffff"/>
+        </button>
+        <button @onclick="Next" class="Button px-4">
+            <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff"/>
         </button>
         <button @onclick="PlaySurprise" class="Button px-4">
             <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff"/>
@@ -117,5 +123,17 @@
     async Task PlayPause()
     {
         _playing = await _player.PlayPause();
+    }
+
+    async Task Next()
+    {
+        await _player.Next();
+        await PollApi();
+    }
+    
+    async Task Previous()
+    {
+        await _player.Previous();
+        await PollApi();
     }
 }

@@ -11,5 +11,7 @@ namespace Spiralfy.Core.Interfaces
         public Task<bool> PlayPause();
         public Task<bool> IsPlaying();
         public Task<IPlayableItem> GetCurrentlyPlaying();
+        public Task Next();
+        public Task Previous();
     }
 }
