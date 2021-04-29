@@ -1,5 +1,6 @@
 ﻿@page "/play"
 @using Spiralfy.Core.Interfaces
+@using System.Timers
 @inject ISpiralfyPlayer Player
 @inject ISpiralfyService Service
 
@@ -18,6 +19,7 @@
     </small>
     return;
 }
+
 <div class="card" style="width: 18rem;">
     @switch (currentlyPlaying)
     {
@@ -56,14 +58,27 @@
     bool playing;
     private IPlayableItem currentlyPlaying;
     private IPlayableItem surpriseTrack;
-
+    
+    private readonly Timer _timer = new(){ Interval = 3000 };
+    
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         surpriseTrack = await Service.GetTrack("4cOdK2wGLETKBW3PvgPWqT");
         username = (await Service.GetCurrentUser()).DisplayName;
-        playing = await Player.IsPlaying();
-        currentlyPlaying = await Player.GetCurrentlyPlaying();
+
+        StartPolling();
+    }
+
+    private void StartPolling()
+    {
+        _timer.Elapsed += async (_, _) =>
+        {
+            currentlyPlaying = await Player.GetCurrentlyPlaying();
+            playing = await Player.IsPlaying();
+            await InvokeAsync(StateHasChanged);
+        };
+        _timer.Start();
     }
 
     async Task PlaySurprise()
