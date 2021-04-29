@@ -1294,7 +1294,7 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-blazor@next:
+blazor@5.0.0-pre.20210428.4:
   version "5.0.0-pre.20210428.4"
   resolved "https://registry.yarnpkg.com/blazor/-/blazor-5.0.0-pre.20210428.4.tgz#f5b86f690dc8908e4316fa9be6705cd6bbc4466a"
   integrity sha512-3WYwYlahHcCyCpXfTw8NXQGOTEXU0+5IiV51zxuDcwyBmTtuXU6mF8pMPWD4PbL8FOiNrdolMNMRabJA9cHK3g==
@@ -3573,7 +3573,7 @@ minimalistic-crypto-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
   integrity sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
 
-minimatch@^3.0.4:
+minimatch@3.0.4, minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   integrity sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
@@ -3963,6 +3963,14 @@ parcel-plugin-import-maps@^0.3.1:
   resolved "https://registry.yarnpkg.com/parcel-plugin-import-maps/-/parcel-plugin-import-maps-0.3.1.tgz#34d0135b5363324ca8b88e37072848cf5fe37cc3"
   integrity sha512-P4F3ehheamfwkJx+UoRrr8/7/uWhFDLaOFgrrYhvtdo3irq0WTh2XavMQ48W3G+CUgVosm4hbq8EhGNgGEjHng==
 
+parcel-plugin-static-files-copy@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-static-files-copy/-/parcel-plugin-static-files-copy-2.6.0.tgz#06d7d9b6d7e2071b2e261315e94209b522108beb"
+  integrity sha512-k3YxdnEQWo1aMfCeBfxgUNJWuUE0O730EGiGBcmWEUOto7f1jM/8oxBKXkVZsXDCO1o00dw5X7CsT+yF0JY4qA==
+  dependencies:
+    minimatch "3.0.4"
+    path "0.12.7"
+
 parse-asn1@^5.0.0, parse-asn1@^5.1.5:
   version "5.1.6"
   resolved "https://registry.yarnpkg.com/parse-asn1/-/parse-asn1-5.1.6.tgz#385080a3ec13cb62a62d39409cb3e88844cdaed4"
@@ -4034,6 +4042,14 @@ path-to-regexp@^1.7.0:
   dependencies:
     isarray "0.0.1"
 
+path@0.12.7:
+  version "0.12.7"
+  resolved "https://registry.yarnpkg.com/path/-/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
+  integrity sha1-1NwqUGxM4hl+tIHr/NWzbAFAsQ8=
+  dependencies:
+    process "^0.11.1"
+    util "^0.10.3"
+
 pbkdf2@^3.0.3:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.1.2.tgz#dd822aa0887580e52f1a039dc3eda108efae3075"
@@ -4096,7 +4112,7 @@ piral-cli@0.13.2:
     typescript "^4.0.2"
     yargs "^15.4.1"
 
-piral-core@^0.13.2-pre.2387:
+piral-core@^0.13.2:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/piral-core/-/piral-core-0.13.2.tgz#e296e95daa8e897d665c58a0885fd4c21a029d2a"
   integrity sha512-JmRJhG5dM6rjCKDh/sIOZTcdGJNJhVxegTtMHsbQ+1kvEkuE9yO+0ftxrUZG/7QRvtl0DljRROcptd5PH0+kSA==
@@ -4115,7 +4131,7 @@ piral-debug-utils@^0.13.2:
   resolved "https://registry.yarnpkg.com/piral-debug-utils/-/piral-debug-utils-0.13.2.tgz#eec5d38b639ee2f0ff88483ab1ede20b47d47e88"
   integrity sha512-3WBJceE29WPjW7MpAHWshADahQYPovDrHKsVCgg2z23MX9UfzFQ6v+A+xlCnFtXFEqt0za2y2N7I3I6+Wdagvg==
 
-piral-ext@^0.13.2-pre.2387:
+piral-ext@^0.13.2:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/piral-ext/-/piral-ext-0.13.2.tgz#350d07f4d8ed394b4477e12cb3a4d465453e0538"
   integrity sha512-h/w+BCPketIDkIl/wXKGq45J4EBEdKWFiKYnWgIL9FLtQlLr7IJip2PinDkULQhHahjfeOJ9LNsGFBw0Gym4VQ==
@@ -4152,15 +4168,15 @@ piral-translate@^0.13.2:
   resolved "https://registry.yarnpkg.com/piral-translate/-/piral-translate-0.13.2.tgz#1abe45d10c8eb726f8efaa1ebe3607503e05c665"
   integrity sha512-OzqsSt4dQflvq/C02iWcEt8fkpCIYnfmIJjAR8pse8nHXDwwVoyi+bmAd7XFGLahq3rRdWRs2NLAIkr7M33Ykg==
 
-piral@next:
-  version "0.13.2-pre.2387"
-  resolved "https://registry.yarnpkg.com/piral/-/piral-0.13.2-pre.2387.tgz#1924da7c59ced3d9d195f302f26ef62c48003a07"
-  integrity sha512-HWj3bgf04atc+sbjhO8QgH4nDfUkIV/AOQCsFJ0xK8VAqb8pUtmZR0GWtfGQoW9kQNTCC1zbsC9Yf6tc8idJLQ==
+piral@^0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/piral/-/piral-0.13.2.tgz#a3bc3939a9a41f1b54949df31d7b3d0a11e2a7f9"
+  integrity sha512-I+pULK2c0xz69Bt2ss+Uqas4B5Yi9IwvI6V37vKiXTQYTNc5SOmOCSAGFr39q5QhTrHYRJ+CHy0b/86ewoooVw==
   dependencies:
     core-js "^3.6.4"
     current-script-polyfill "^1.0.0"
-    piral-core "^0.13.2-pre.2387"
-    piral-ext "^0.13.2-pre.2387"
+    piral-core "^0.13.2"
+    piral-ext "^0.13.2"
     promise-polyfill "^8.1.0"
     react "^17.0.1"
     react-dom "^17.0.1"
@@ -4573,7 +4589,7 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-process@^0.11.10:
+process@^0.11.1, process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
@@ -5726,6 +5742,13 @@ util@0.10.3:
   integrity sha1-evsa/lCAUkZInj23/g7TeTNqwPk=
   dependencies:
     inherits "2.0.1"
+
+util@^0.10.3:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/util/-/util-0.10.4.tgz#3aa0125bfe668a4672de58857d3ace27ecb76901"
+  integrity sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==
+  dependencies:
+    inherits "2.0.3"
 
 util@^0.11.0:
   version "0.11.1"

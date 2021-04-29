@@ -34,9 +34,15 @@
     "@types/react-dom": "latest",
     "@types/react-router": "latest",
     "@types/react-router-dom": "latest",
+    "parcel-plugin-static-files-copy": "^2.6.0",
     "piral-cli": "0.13.2",
     "piral-cli-parcel": "0.13.2",
     "sass": "^1.32.12",
     "typescript": "latest"
+  },
+  "staticFiles": {
+    "staticPath": [
+      "./src/static"
+    ]
   }
 }
