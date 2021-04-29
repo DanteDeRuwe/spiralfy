@@ -1,4 +1,4 @@
-﻿@attribute [PiralExtension("homepage")]
+@attribute [PiralExtension("homepage")]
 @using Spiralfy.Core.Interfaces
 @using System.Timers
 @using Piral.Blazor.Utils
@@ -102,7 +102,9 @@
     private async Task PollApi()
     {
         _currentlyPlaying = await _player.GetCurrentlyPlaying();
+        await InvokeAsync(StateHasChanged);
         _playing = await _player.IsPlaying();
+        await InvokeAsync(StateHasChanged);
         _activeDevice = await _service.GetActiveDevice();
     }
 
