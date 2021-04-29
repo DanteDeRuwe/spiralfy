@@ -7,5 +7,6 @@ namespace Spiralfy.Core.Interfaces
     {
         public Task<PrivateUser> GetCurrentUser();
         public Task<FullTrack> GetTrack(string trackId);
+        public Task<Device> GetActiveDevice();
     }
 }

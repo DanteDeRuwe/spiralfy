@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Spiralfy.Core.Interfaces;
 using SpotifyAPI.Web;
 
@@ -21,6 +22,11 @@ namespace Spiralfy.Core
         public Task<FullTrack> GetTrack(string trackId)
         {
             return _spotify.Tracks.Get(trackId);
+        }
+
+        public async Task<Device> GetActiveDevice()
+        {
+            return (await _spotify.Player.GetAvailableDevices()).Devices.SingleOrDefault(d => d.IsActive);
         }
     }
 }
