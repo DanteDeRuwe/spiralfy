@@ -8,7 +8,7 @@
 @inject NavigationManager _navManager
 @inject ILogger<Login> _logger;
 
-@if(!_isAuthed)
+@if(_token is null)
 {
     <a href="@_authUri" class="Button" data-primary="true">Login via Spotify</a>
 }
@@ -20,16 +20,15 @@ else
 
 @code {
     private Uri _authUri;
-    private bool _isAuthed;
     private string _username;
     private ISpiralfyService _service;
+    private string _token;
 
     protected override async Task OnInitializedAsync()
     {
-        var fragmentDict = new Uri(_navManager.Uri).ToFragmentDict();
-        _isAuthed = fragmentDict.ContainsKey("access_token");
+        _token = new Uri(_navManager.Uri).ExtractAccessToken();
 
-        if (!_isAuthed)
+        if (_token is null)
         {
             var redirectUri = _navManager.ToAbsoluteUri(_navManager.BaseUri);
             var loginRequest = new LoginRequest(redirectUri, "a8e9b67342b740479fcb00609a46d354", LoginRequest.ResponseType.Token)
@@ -40,7 +39,7 @@ else
         }
         else
         {
-            var spotify = new SpotifyClient(fragmentDict["access_token"]);
+            var spotify = new SpotifyClient(_token);
             _service = new SpiralfyService(spotify);
             _username = (await _service.GetCurrentUser()).DisplayName;
         }

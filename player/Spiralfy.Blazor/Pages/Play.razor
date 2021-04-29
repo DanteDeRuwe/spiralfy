@@ -4,9 +4,9 @@
 @using Piral.Blazor.Utils
 @using Spiralfy.Core
 @using Spiralfy.Core.Utils
-@inject NavigationManager navManager
+@inject NavigationManager _navManager
 
-@if (!_isAuthed)
+@if (_token is null)
 {
     <div class="container" style="margin-top: 10rem;">
         <small>
@@ -66,21 +66,17 @@
     private IPlayableItem _currentlyPlaying;
     private IPlayableItem _surpriseTrack;
     private Device _activeDevice;
-
+    private readonly Timer _timer = new() { Interval = 3000 };
+    private string _token;
     private ISpiralfyPlayer _player;
     private ISpiralfyService _service;
 
-    private readonly Timer _timer = new() { Interval = 3000 };
-    private bool _isAuthed;
-
     protected override async Task OnInitializedAsync()
     {
-        var fragmentDict = new Uri(navManager.Uri).ToFragmentDict();
-        _isAuthed = fragmentDict.ContainsKey("access_token");
-
-        if (!_isAuthed) return;
-
-        var spotify = new SpotifyClient(fragmentDict["access_token"]);
+        _token = new Uri(_navManager.Uri).ExtractAccessToken();
+        if (_token is null) return;
+        
+        var spotify = new SpotifyClient(_token);
         _player = new SpiralfyPlayer(spotify);
         _service = new SpiralfyService(spotify);
 
@@ -120,5 +116,4 @@
     {
         _playing = await _player.PlayPause();
     }
-
 }
