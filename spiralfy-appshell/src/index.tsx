@@ -7,7 +7,7 @@ import * as React from 'react';
 // change to your feed URL here (either using feed.piral.cloud or your own service)
 const feedUrl = 'https://feed.piral.cloud/api/v1/pilet/empty';
 
-const { root } = renderInstance({
+renderInstance({
   layout,
   errors,
   plugins: [createBlazorApi()],
