@@ -614,3 +614,8 @@ FodyWeavers.xsd
 *.tlog
 
 # End of https://www.toptal.com/developers/gitignore/api/react,node,yarn,dotnetcore,visualstudio,rider,vscode
+
+
+
+# Publish scripts
+publish.sh
