@@ -6,13 +6,14 @@
     "piral"
   ],
   "dependencies": {
-    "piral": "^0.13.2",
     "blazor": "next",
+    "piral": "^0.13.2",
     "piral-blazor": "next"
   },
   "scripts": {
     "start": "piral debug",
-    "build": "piral build"
+    "build": "piral build",
+    "publish-patch": "yarn run build --type emulator && yarn version --patch && yarn publish dist/emulator/*.tgz"
   },
   "app": "./src/index.html",
   "pilets": {
