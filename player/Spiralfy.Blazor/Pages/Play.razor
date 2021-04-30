@@ -1,4 +1,4 @@
-@attribute [PiralExtension("homepage")]
+﻿@attribute [PiralExtension("homepage")]
 @using System.Timers
 @inject NavigationManager _navManager
 
@@ -27,7 +27,7 @@
     @switch (_currentlyPlaying)
     {
         case FullTrack track:
-            <img class="card-img-top" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="">
+            <img class="card-img-top" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="@track.Name">
             <div class="card-body">
                 <div>
                     <h4 class="card-title">@track.Name</h4>
@@ -37,27 +37,31 @@
             </div>
             break;
         case FullEpisode episode:
-            <img class="card-img-top" src="@episode.Images.First().Url" alt="" width="200" height="200">
+            <img class="card-img-top" src="@episode.Images.First().Url" alt="@episode.Name">
             <div class="card-body">
                 <div>
                     <h4>@episode.Name</h4>
-                    <small>@episode.Description</small>
+                    <p>@episode.Show.Name</p>
+                    <details>
+                        <summary>Description</summary>
+                        <small>@episode.Description</small>
+                    </details>
                 </div>
             </div>
             break;
     }
     <div class="d-flex justify-content-around mb-2">
         <button @onclick="Previous" class="Button px-4">
-            <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff"/>
+            <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff" alt="previous"/>
         </button>
         <button @onclick="PlayPause" class="Button px-4" data-primary="true">
-            <img src="https://api.iconify.design/fa-solid:@(_playing ? "pause" : "play").svg?height=16&color=%23ffffff"/>
+            <img src="https://api.iconify.design/fa-solid:@(_playing ? "pause" : "play").svg?height=16&color=%23ffffff" alt="play or pause"/>
         </button>
         <button @onclick="Next" class="Button px-4">
-            <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff"/>
+            <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff" alt="next"/>
         </button>
         <button @onclick="PlaySurprise" class="Button px-4">
-            <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff"/>
+            <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff" alt="play a surprise"/>
         </button>
     </div>
 </div>
