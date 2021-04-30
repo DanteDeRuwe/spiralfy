@@ -3,7 +3,7 @@
 @inject NavigationManager _navManager
 @inject ILogger<Login> _logger;
 
-@if(_token is null)
+@if(_username is null)
 {
     <a href="@_authUri" class="Button" data-primary="true">Login via Spotify</a>
 }
@@ -17,34 +17,30 @@ else
     private Uri _authUri;
     private string _username;
     private ISpiralfyService _service;
-    private string _token;
 
     protected override async Task OnInitializedAsync()
     {
-        _token = new Uri(_navManager.Uri).ExtractAccessToken();
-
-        if (_token is null)
+        var token = new Uri(_navManager.Uri).ExtractAccessToken();
+        var redirectUri = _navManager.ToAbsoluteUri(_navManager.BaseUri);
+        var loginRequest = new LoginRequest(redirectUri, "a8e9b67342b740479fcb00609a46d354", LoginRequest.ResponseType.Token)
         {
-            var redirectUri = _navManager.ToAbsoluteUri(_navManager.BaseUri);
-            var loginRequest = new LoginRequest(redirectUri, "a8e9b67342b740479fcb00609a46d354", LoginRequest.ResponseType.Token)
+            Scope = new[]
             {
-                Scope = new[]
-                {
-                    Scopes.UserModifyPlaybackState, 
-                    Scopes.UserReadCurrentlyPlaying, 
-                    Scopes.UserReadPlaybackState, 
-                    Scopes.UserReadPlaybackPosition,
-                    Scopes.PlaylistReadPrivate,
-                    Scopes.UserLibraryRead
-                }
-            };
-            _authUri = loginRequest.ToUri();
-        }
-        else
+                Scopes.UserModifyPlaybackState, 
+                Scopes.UserReadCurrentlyPlaying, 
+                Scopes.UserReadPlaybackState, 
+                Scopes.UserReadPlaybackPosition,
+                Scopes.PlaylistReadPrivate,
+                Scopes.UserLibraryRead
+            }
+        };
+        _authUri = loginRequest.ToUri();
+        
+        if(token is not null)
         {
-            var spotify = new SpotifyClient(_token);
+            var spotify = new SpotifyClient(token);
             _service = new SpiralfyService(spotify);
-            _username = (await _service.GetCurrentUser()).DisplayName;
+            _username = (await _service.GetCurrentUser())?.DisplayName;
         }
     }
 }

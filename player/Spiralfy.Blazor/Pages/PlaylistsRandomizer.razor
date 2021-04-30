@@ -1,7 +1,7 @@
 @attribute [PiralExtension("homepage")]
 @inject NavigationManager _navManager
 
-@if (_token is null)
+@if (!_loggedIn)
 {
     <div class="container" style="margin-top: 10rem;">
         <small>
@@ -22,7 +22,7 @@
 }
 
 <div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
-    <button  id="playlist-randomize" class="Button" data-primary="true" @onclick="Randomize">Current playlist: @(_currentPlaylist?.Name ?? "none")</button>
+    <button id="playlist-randomize" class="Button" data-primary="true" @onclick="Randomize">Current playlist: @(_currentPlaylist?.Name ?? "none")</button>
     <Play/>
 </div>
 
@@ -33,16 +33,22 @@
     private IReadOnlyCollection<SimplePlaylist> _playlists;
     private Random _random = new();
     private SimplePlaylist _currentPlaylist;
+    private bool _loggedIn;
 
     protected override async Task OnInitializedAsync()
     {
         _token = new Uri(_navManager.Uri).ExtractAccessToken();
-        if (_token is null) return;
+        if (_token is null)
+        {
+            _loggedIn = false;
+            return;
+        }
 
         var spotify = new SpotifyClient(_token);
         _player = new SpiralfyPlayer(spotify);
         _service = new SpiralfyService(spotify);
 
+        _loggedIn = (await _service.GetCurrentUser()) is not null;
         _playlists = await _service.GetUserPlaylists();
     }
 
