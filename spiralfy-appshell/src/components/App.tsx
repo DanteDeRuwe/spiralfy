@@ -3,6 +3,7 @@ import { LayoutProps, Menu, ExtensionSlot } from 'piral';
 import Logo from './Logo';
 import Footer from './Footer';
 import { Route } from 'react-router-dom';
+import PopoutButton from './PopoutButton';
 
 const App: React.FC<LayoutProps> = ({ children }) => (
   <>
