@@ -21,32 +21,9 @@
 <div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
     <PlaylistsRandomizer Player="@_player" Service="@_service" @ref="_playlistsRandomizer"/>
     <div class="container" style="width: 25rem;">
-        @switch (_currentlyPlaying)
-        {
-            case FullTrack track:
-                <img class="card-img-top" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="@track.Name">
-                <div class="card-body">
-                    <div>
-                        <h4 class="card-title">@track.Name</h4>
-                        <p>@track.Album.Name</p>
-                        <small>@string.Join(", ", track.Artists.Select(a => a.Name))</small>
-                    </div>
-                </div>
-                break;
-            case FullEpisode episode:
-                <img class="card-img-top" src="@episode.Images.First().Url" alt="@episode.Name">
-                <div class="card-body">
-                    <div>
-                        <h4>@episode.Name</h4>
-                        <p>@episode.Show.Name</p>
-                        <details>
-                            <summary>Description</summary>
-                            <small>@episode.Description</small>
-                        </details>
-                    </div>
-                </div>
-                break;
-        }
+        
+        <PlayableItemView Item="@_currentlyPlaying"/>
+
         <div class="d-flex justify-content-around mb-2">
             <button @onclick="Previous" class="Button px-4">
                 <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff" alt="previous"/>
