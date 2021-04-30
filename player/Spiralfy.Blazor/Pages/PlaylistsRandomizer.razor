@@ -1,4 +1,4 @@
-﻿@attribute [PiralExtension("homepage")]
+@attribute [PiralExtension("homepage")]
 @inject NavigationManager _navManager
 
 @if (_token is null)
@@ -22,7 +22,7 @@
 }
 
 <div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
-    <button class="Button" data-primary="true" @onclick="Randomize">Current playlist: @(_currentPlaylist?.Name ?? "none")</button>
+    <button  id="playlist-randomize" class="Button" data-primary="true" @onclick="Randomize">Current playlist: @(_currentPlaylist?.Name ?? "none")</button>
     <Play/>
 </div>
 
