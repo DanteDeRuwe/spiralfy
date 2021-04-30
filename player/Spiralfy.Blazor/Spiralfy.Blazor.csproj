@@ -8,8 +8,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.4" PrivateAssets="all" />
-    <PackageReference Include="Piral.Blazor.Tools" Version="5.0.0-pre.20210428.4" />
-    <PackageReference Include="Piral.Blazor.Utils" Version="5.0.0-pre.20210428.4" />
+    <PackageReference Include="Piral.Blazor.Tools" Version="5.0.0-pre.20210430.2" />
+    <PackageReference Include="Piral.Blazor.Utils" Version="5.0.0-pre.20210430.2" />
     <PackageReference Include="SpotifyAPI.Web" Version="6.2.0" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
@@ -17,15 +17,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Spiralfy.Core\Spiralfy.Core.csproj" />
   </ItemGroup>
-
-  <!-- TODO this will come in the new version of Piral.Blazor.Tools -->
-  <Target Name="CopyScopedCss" AfterTargets="Build">
-    <Touch Files="$(_srcPath)\$(MSBuildProjectName).styles.css" AlwaysCreate="true"/>
-    <Copy
-            SourceFiles="obj\$(Configuration)\$(TargetFrameWork)\scopedcss\bundle\$(MSBuildProjectName).styles.css"
-            DestinationFolder="$(_srcPath)"
-            Condition="Exists('obj\$(Configuration)\$(TargetFrameWork)\scopedcss\bundle\$(MSBuildProjectName).styles.css')"
-        />
-  </Target>
   
 </Project>
