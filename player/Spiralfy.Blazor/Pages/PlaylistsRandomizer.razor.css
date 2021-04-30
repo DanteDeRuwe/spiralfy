@@ -2,6 +2,13 @@
     width: 25rem;
     color: inherit;
 }
+#playlist-randomize:before{
+    content: "";
+    min-width: 1rem;
+    min-height: 1rem;
+    margin-right: .5rem;
+    background: url('https://api.iconify.design/tabler:playlist.svg?color=%23fff') no-repeat center center / contain;
+}
 
 #playlist-randomize:hover{
     color: transparent;

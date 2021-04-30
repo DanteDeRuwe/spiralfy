@@ -24,6 +24,14 @@ namespace Spiralfy.Core
         public async Task Next() => await _spotify.Player.SkipNext();
 
         public async Task Previous() => await _spotify.Player.SkipPrevious();
+        
+        public async Task<FullPlaylist> GetCurrentPlaylist()
+        {
+            var playback = await _spotify.Player.GetCurrentPlayback();
+            var playlistUri = playback?.Context?.Uri?.Split(':')?.Last();
+            if (playlistUri is null) return null;
+            return await _spotify.Playlists.Get(playlistUri);
+        }
 
         public async Task Play() => await _spotify.Player.ResumePlayback();
 
@@ -50,14 +58,15 @@ namespace Spiralfy.Core
 
         public async Task PlayShuffle(SimplePlaylist playlist)
         {
-            var items = await _spotify.Playlists.GetItems(playlist.Id);
-            var uris = items?.Items?.Select(i => GetUri(i.Track)).ToList();
-            
             var req = new PlayerResumePlaybackRequest
             {
-                Uris = uris
+                ContextUri = playlist.Uri
             };
-            await _spotify.Player.SetShuffle(new PlayerShuffleRequest(true));
+            try
+            {
+                await _spotify.Player.SetShuffle(new PlayerShuffleRequest(true));
+            }
+            catch { }
             await _spotify.Player.ResumePlayback(req);
         }
 

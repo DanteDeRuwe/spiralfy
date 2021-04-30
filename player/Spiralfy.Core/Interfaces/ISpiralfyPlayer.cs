@@ -14,5 +14,6 @@ namespace Spiralfy.Core.Interfaces
         public Task<IPlayableItem> GetCurrentlyPlaying();
         public Task Next();
         public Task Previous();
+        public Task<FullPlaylist> GetCurrentPlaylist();
     }
 }
