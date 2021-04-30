@@ -28,7 +28,15 @@ else
             var redirectUri = _navManager.ToAbsoluteUri(_navManager.BaseUri);
             var loginRequest = new LoginRequest(redirectUri, "a8e9b67342b740479fcb00609a46d354", LoginRequest.ResponseType.Token)
             {
-                Scope = new[] { Scopes.UserModifyPlaybackState, Scopes.UserReadCurrentlyPlaying, Scopes.UserReadPlaybackState, Scopes.UserReadPlaybackPosition }
+                Scope = new[]
+                {
+                    Scopes.UserModifyPlaybackState, 
+                    Scopes.UserReadCurrentlyPlaying, 
+                    Scopes.UserReadPlaybackState, 
+                    Scopes.UserReadPlaybackPosition,
+                    Scopes.PlaylistReadPrivate,
+                    Scopes.UserLibraryRead
+                }
             };
             _authUri = loginRequest.ToUri();
         }

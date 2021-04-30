@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Spiralfy.Core.Interfaces;
+﻿using Spiralfy.Core.Interfaces;
 using SpotifyAPI.Web;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Spiralfy.Core
 {
     public class SpiralfyPlayer : ISpiralfyPlayer
     {
         private readonly ISpotifyClient _spotify;
-        
+
         public SpiralfyPlayer(ISpotifyClient spotify)
         {
             _spotify = spotify;
@@ -17,7 +18,7 @@ namespace Spiralfy.Core
 
         public async Task<IPlayableItem> GetCurrentlyPlaying()
         {
-            return (await _spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest()))?.Item;
+            return(await _spotify.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest()))?.Item;
         }
 
         public async Task Next() => await _spotify.Player.SkipNext();
@@ -28,12 +29,7 @@ namespace Spiralfy.Core
 
         public async Task Play(IPlayableItem item)
         {
-            var uri = item switch
-            {
-                FullTrack t => t.Uri,
-                FullEpisode e => e.Uri,
-                _ => throw new ArgumentException("item has no valid Uri")
-            };
+            var uri = GetUri(item);
 
             var req = new PlayerResumePlaybackRequest
             {
@@ -41,7 +37,30 @@ namespace Spiralfy.Core
             };
             await _spotify.Player.ResumePlayback(req);
         }
-        
+
+        private static string GetUri(IPlayableItem item)
+        {
+            return item switch
+            {
+                FullTrack t => t.Uri,
+                FullEpisode e => e.Uri,
+                _ => throw new ArgumentException("item has no valid Uri")
+            };
+        }
+
+        public async Task PlayShuffle(SimplePlaylist playlist)
+        {
+            var items = await _spotify.Playlists.GetItems(playlist.Id);
+            var uris = items?.Items?.Select(i => GetUri(i.Track)).ToList();
+            
+            var req = new PlayerResumePlaybackRequest
+            {
+                Uris = uris
+            };
+            await _spotify.Player.SetShuffle(new PlayerShuffleRequest(true));
+            await _spotify.Player.ResumePlayback(req);
+        }
+
         public async Task Pause() => await _spotify.Player.PausePlayback();
 
         public async Task<bool> PlayPause()
@@ -55,7 +74,8 @@ namespace Spiralfy.Core
             {
                 await Play();
             }
-            return !playing;
+
+            return!playing;
         }
 
         public async Task<bool> IsPlaying()

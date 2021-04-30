@@ -1,0 +1,55 @@
+﻿@attribute [PiralExtension("homepage")]
+@inject NavigationManager _navManager
+
+@if (_token is null)
+{
+    <div class="container" style="margin-top: 10rem;">
+        <small>
+            Please log in.
+        </small>
+    </div>
+    return;
+}
+
+@if (_playlists is null)
+{
+    <div class="container" style="margin-top: 10rem;">
+        <small>
+            No playlists found
+        </small>
+    </div>
+    return;
+}
+
+<div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
+    <button class="Button" data-primary="true" @onclick="Randomize">Current playlist: @(_currentPlaylist?.Name ?? "none")</button>
+    <Play/>
+</div>
+
+@code {
+    private string _token;
+    private ISpiralfyPlayer _player;
+    private ISpiralfyService _service;
+    private IReadOnlyCollection<SimplePlaylist> _playlists;
+    private Random _random = new();
+    private SimplePlaylist _currentPlaylist;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _token = new Uri(_navManager.Uri).ExtractAccessToken();
+        if (_token is null) return;
+
+        var spotify = new SpotifyClient(_token);
+        _player = new SpiralfyPlayer(spotify);
+        _service = new SpiralfyService(spotify);
+
+        _playlists = await _service.GetUserPlaylists();
+    }
+
+    private async Task Randomize()
+    {
+        _currentPlaylist = _playlists.ChooseRandom(_random);
+        await _player.PlayShuffle(_currentPlaylist);
+    }
+
+}

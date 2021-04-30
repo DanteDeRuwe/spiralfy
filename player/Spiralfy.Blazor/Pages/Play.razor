@@ -1,5 +1,4 @@
-﻿@attribute [PiralExtension("homepage")]
-@using System.Timers
+﻿@using System.Timers
 @inject NavigationManager _navManager
 
 @if (_token is null)
@@ -23,7 +22,7 @@
     return;
 }
 
-<div class="container" style="width: 25rem; margin-top: 10rem;">
+<div class="container" style="width: 25rem;">
     @switch (_currentlyPlaying)
     {
         case FullTrack track:
