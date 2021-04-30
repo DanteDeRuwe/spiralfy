@@ -1,0 +1,41 @@
+﻿#playlist-randomize{
+    width: 25rem;
+    color: inherit;
+}
+#playlist-randomize:before{
+    content: "";
+    min-width: 1rem;
+    min-height: 1rem;
+    margin-right: .5rem;
+    background: url('https://api.iconify.design/tabler:playlist.svg?color=%23fff') no-repeat center center / contain;
+}
+
+#playlist-randomize:hover{
+    color: transparent;
+}
+
+    #playlist-randomize:hover:before {
+        content: "";
+        min-width: 1rem;
+        min-height: 1rem;
+        position: absolute;
+        left: auto;
+        right: auto;
+        background: url('https://api.iconify.design/fontelico:spin3.svg') no-repeat center center / contain;
+        animation-name: spin;
+        animation-duration: 1000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    12.5% {
+        transform: rotate(90deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

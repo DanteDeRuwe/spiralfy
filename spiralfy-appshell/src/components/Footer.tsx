@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PopoutButton from './PopoutButton';
 
 const Footer: React.FC = () => (
   <>
@@ -41,6 +42,9 @@ const Footer: React.FC = () => (
       </p>
       <p className="copyright">&mdash; © {new Date().getFullYear()}</p>
     </footer>
+    <div style={{ position: 'absolute', bottom: '1rem', right: '1rem' }}>
+      <PopoutButton />
+    </div>
   </>
 );
 

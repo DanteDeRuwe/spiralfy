@@ -101,6 +101,7 @@ a {
   display: flex;
   flex-direction: row;
   justify-content: flex;
+  align-items: center;
   gap: 3rem;
   padding: 40px;
   position: fixed;
@@ -201,13 +202,19 @@ a {
 } */
 
 footer {
+  padding: 0 3rem;
+  margin-bottom: 0.5rem;
   padding-bottom: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  flex-wrap: wrap;
   max-width: calc(100vw - calc(100vw - 100%));
+
+  & > * + * {
+    margin-left: 0.5rem !important;
+  }
 
   .text-lightgray {
     color: #aaa;
@@ -224,5 +231,8 @@ footer {
   .copyright {
     font-size: 0.7rem;
     margin-left: -5px;
+  }
+  p {
+    margin: 0;
   }
 }

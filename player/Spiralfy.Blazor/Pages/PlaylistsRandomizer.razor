@@ -1,0 +1,39 @@
+@inject NavigationManager _navManager
+
+@if (_playlists is null)
+{
+    return;
+}
+
+<button id="playlist-randomize" class="Button" data-primary="true" @onclick="Randomize">@(_currentPlaylistName ?? "None")</button>
+
+@code {
+    private IReadOnlyCollection<SimplePlaylist> _playlists;
+    private Random _random = new();
+    private string _currentPlaylistName;
+
+    [Parameter]
+    public ISpiralfyPlayer Player { get; init; }
+
+    [Parameter]
+    public ISpiralfyService Service { get; init; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _playlists = await Service.GetUserPlaylists();
+        _currentPlaylistName = (await Player.GetCurrentPlaylist())?.Name;
+    }
+
+    private async Task Randomize()
+    {
+        var playlist = _playlists.ChooseRandom(_random);
+        await Player.PlayShuffle(playlist);
+        await Update();
+    }
+
+    public async Task Update()
+    {
+        _currentPlaylistName = (await Player.GetCurrentPlaylist())?.Name;
+    }
+
+}

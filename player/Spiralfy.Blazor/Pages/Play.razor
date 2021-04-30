@@ -1,71 +1,45 @@
-﻿@attribute [PiralExtension("homepage")]
-@using Spiralfy.Core.Interfaces
+@attribute [PiralExtension("homepage")]
 @using System.Timers
-@using Piral.Blazor.Utils
-@using Spiralfy.Core
-@using Spiralfy.Core.Utils
 @inject NavigationManager _navManager
 
-@if (_token is null)
+@if (!_loggedIn)
 {
-    <div class="container" style="margin-top: 10rem;">
-        <small>
-            Please log in.
-        </small>
+    <div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
+        <small>Please log in.</small>
     </div>
     return;
 }
 
-@if(_activeDevice is null)
+@if (_activeDevice is null)
 {
-    <div class="container" style="margin-top: 10rem;">
-        <small>
-            This player requires an active Spotify device (for now).
-            You should try to play something on one of your Spotify devices!
-        </small>
+    <div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
+        <small>This player requires an active Spotify device (for now). <br/>You should try to play something on one of your Spotify devices!</small>
     </div>
     return;
 }
 
-<div class="container" style="width: 25rem; margin-top: 10rem;">
-    @switch (_currentlyPlaying)
-    {
-        case FullTrack track:
-            <img class="card-img-top" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="">
-            <div class="card-body">
-                <div>
-                    <h4 class="card-title">@track.Name</h4>
-                    <p>@track.Album.Name</p>
-                    <small>@string.Join(", ", track.Artists.Select(a => a.Name))</small>
-                </div>
-            </div>
-            break;
-        case FullEpisode episode:
-            <img class="card-img-top" src="@episode.Images.First().Url" alt="" width="200" height="200">
-            <div class="card-body">
-                <div>
-                    <h4>@episode.Name</h4>
-                    <small>@episode.Description</small>
-                </div>
-            </div>
-            break;
-    }
-    <div class="d-flex justify-content-around mb-2">
-        <button @onclick="Previous" class="Button px-4">
-            <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff"/>
-        </button>
-        <button @onclick="PlayPause" class="Button px-4" data-primary="true">
-            <img src="https://api.iconify.design/fa-solid:@(_playing ? "pause" : "play").svg?height=16&color=%23ffffff"/>
-        </button>
-        <button @onclick="Next" class="Button px-4">
-            <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff"/>
-        </button>
-        <button @onclick="PlaySurprise" class="Button px-4">
-            <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff"/>
-        </button>
+<div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
+    <PlaylistsRandomizer Player="@_player" Service="@_service" @ref="_playlistsRandomizer"/>
+    <div class="container" style="width: 25rem;">
+        
+        <PlayableItemView Item="@_currentlyPlaying"/>
+
+        <div class="d-flex justify-content-around mb-2">
+            <button @onclick="Previous" class="Button px-4">
+                <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff" alt="previous"/>
+            </button>
+            <button @onclick="PlayPause" class="Button px-4" data-primary="true">
+                <img src="https://api.iconify.design/fa-solid:@(_playing ? "pause" : "play").svg?height=16&color=%23ffffff" alt="play or pause"/>
+            </button>
+            <button @onclick="Next" class="Button px-4">
+                <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff" alt="next"/>
+            </button>
+            <button @onclick="PlaySurprise" class="Button px-4">
+                <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff" alt="play a surprise"/>
+            </button>
+        </div>
     </div>
 </div>
-
 
 @code {
     bool _playing;
@@ -76,20 +50,30 @@
     private string _token;
     private ISpiralfyPlayer _player;
     private ISpiralfyService _service;
+    private bool _loggedIn;
+    
+    private PlaylistsRandomizer _playlistsRandomizer;
 
     protected override async Task OnInitializedAsync()
     {
         _token = new Uri(_navManager.Uri).ExtractAccessToken();
-        if (_token is null) return;
-        
+        if (_token is null)
+        {
+            return;
+        }
+
         var spotify = new SpotifyClient(_token);
         _player = new SpiralfyPlayer(spotify);
         _service = new SpiralfyService(spotify);
 
-        _surpriseTrack = await _service.GetTrack("4cOdK2wGLETKBW3PvgPWqT");
+        _loggedIn = (await _service.GetCurrentUser()) is not null;
+        if (!_loggedIn)
+        {
+            return;
+        }
 
+        _surpriseTrack = await _service.GetTrack("4cOdK2wGLETKBW3PvgPWqT");
         _currentlyPlaying = await _player.GetCurrentlyPlaying();
-        _playing = await _player.IsPlaying();
 
         await PollApi();
         SetPollingTimer();
@@ -108,10 +92,12 @@
     private async Task PollApi()
     {
         _currentlyPlaying = await _player.GetCurrentlyPlaying();
-        await InvokeAsync(StateHasChanged);
+        StateHasChanged();
         _playing = await _player.IsPlaying();
-        await InvokeAsync(StateHasChanged);
+        StateHasChanged();
         _activeDevice = await _service.GetActiveDevice();
+        StateHasChanged();
+        await _playlistsRandomizer.Update();
     }
 
     async Task PlaySurprise()
@@ -130,7 +116,7 @@
         await _player.Next();
         await PollApi();
     }
-    
+
     async Task Previous()
     {
         await _player.Previous();

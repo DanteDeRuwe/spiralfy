@@ -22,5 +22,17 @@ namespace Spiralfy.Core.Utils
             fragmentDict.TryGetValue("access_token", out var token);
             return token;
         }
+
+        public static T ChooseRandom<T>(this ICollection<T> list, Random random = default)
+        {
+            var r = random ?? new Random();
+            return list.ElementAt(r.Next(list.Count));
+        }
+        
+        public static T ChooseRandom<T>(this IReadOnlyCollection<T> list, Random random = default)
+        {
+            var r = random ?? new Random();
+            return list.ElementAt(r.Next(list.Count));
+        }
     }
 }

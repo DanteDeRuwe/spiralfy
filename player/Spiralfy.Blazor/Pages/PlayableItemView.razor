@@ -1,0 +1,33 @@
+﻿@switch (Item)
+{
+    case FullTrack track:
+        <img class="card-img-top" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="@track.Name">
+        <div class="card-body">
+            <div>
+                <h4 class="card-title">@track.Name</h4>
+                <p>@track.Album.Name</p>
+                <small>@string.Join(", ", track.Artists.Select(a => a.Name))</small>
+            </div>
+        </div>
+        break;
+    case FullEpisode episode:
+        <img class="card-img-top" src="@episode.Images.First().Url" alt="@episode.Name">
+        <div class="card-body">
+            <div>
+                <h4>@episode.Name</h4>
+                <p>@episode.Show.Name</p>
+                <details>
+                    <summary>Description</summary>
+                    <small>@episode.Description</small>
+                </details>
+            </div>
+        </div>
+        break;
+}
+
+@code{
+
+    [Parameter]
+    public IPlayableItem Item { get; set; }
+
+}
