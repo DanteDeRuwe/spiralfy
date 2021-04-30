@@ -17,4 +17,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Spiralfy.Core\Spiralfy.Core.csproj" />
   </ItemGroup>
+
+  <!-- TODO this will come in the new version of Piral.Blazor.Tools -->
+  <Target Name="CopyScopedCss" AfterTargets="Build">
+    <Touch Files="$(_srcPath)\$(MSBuildProjectName).styles.css" AlwaysCreate="true"/>
+    <Copy
+            SourceFiles="obj\$(Configuration)\$(TargetFrameWork)\scopedcss\bundle\$(MSBuildProjectName).styles.css"
+            DestinationFolder="$(_srcPath)"
+            Condition="Exists('obj\$(Configuration)\$(TargetFrameWork)\scopedcss\bundle\$(MSBuildProjectName).styles.css')"
+        />
+  </Target>
+  
 </Project>
