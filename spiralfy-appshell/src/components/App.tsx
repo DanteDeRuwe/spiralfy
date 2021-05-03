@@ -1,5 +1,6 @@
+import { ExtensionSlot, LayoutProps } from 'piral-core';
+import { Menu } from 'piral-menu';
 import * as React from 'react';
-import { LayoutProps, Menu, ExtensionSlot } from 'piral';
 import Logo from './Logo';
 import Footer from './Footer';
 import { Route } from 'react-router-dom';

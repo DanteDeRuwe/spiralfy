@@ -7,8 +7,13 @@
   ],
   "dependencies": {
     "blazor": "5.0.0-pre.20210428.4",
-    "piral": "^0.13.2",
-    "piral-blazor": "next"
+    "piral-blazor": "next",
+    "piral-core": "^0.13.2",
+    "piral-menu": "^0.13.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
   },
   "scripts": {
     "start": "piral debug",
