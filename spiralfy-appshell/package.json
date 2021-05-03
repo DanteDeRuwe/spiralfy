@@ -18,7 +18,7 @@
   "scripts": {
     "start": "piral debug",
     "build:emulator": "piral build --type emulator",
-    "build:release": "piral build --type release",
+    "build:release": "piral build --type release"
   },
   "app": "./src/index.html",
   "pilets": {
