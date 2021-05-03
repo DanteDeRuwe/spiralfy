@@ -7,7 +7,7 @@ const Player: React.FC = () => {
   const { hash } = useLocation();
   const { access_token } = queryString.parse(hash);
 
-  if (!access_token) return;
+  if (!access_token) return <></>;
 
   return (
     <div style={{ display: 'none' }}>
