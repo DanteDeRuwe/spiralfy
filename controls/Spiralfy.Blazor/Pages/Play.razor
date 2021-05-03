@@ -10,17 +10,10 @@
     return;
 }
 
-@if (_activeDevice is null)
-{
-    <div class="container">
-        <small>This player requires an active Spotify device (for now). <br/>You should try to play something on one of your Spotify devices!</small>
-    </div>
-    return;
-}
-
 <div class="container d-flex flex-column align-items-center" style="width: 25rem; gap:3rem;">
 
     <PlaylistsRandomizer Player="@_player" Service="@_service" @ref="_playlistsRandomizer"/>
+    
     <PlayableItemView Item="@_currentlyPlaying"/>
 
     <div class="d-flex justify-content-between w-100 my-2">
@@ -71,7 +64,6 @@
         }
 
         _surpriseTrack = await _service.GetTrack("4cOdK2wGLETKBW3PvgPWqT");
-        _currentlyPlaying = await _player.GetCurrentlyPlaying();
 
         await PollApi();
         SetPollingTimer();
