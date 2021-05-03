@@ -1,5 +1,11 @@
 ﻿@switch (Item)
 {
+    case FullTrack track when track.Uri.Contains("2bNCdW4rLnCTzgqUXTTDO1"): 
+        // This track is 4'33 by John Cage: 4 minutes and 33 seconds of silence
+        // It is used by the web sdk to start up the player
+        <h1>Welcome to Spiralfy!</h1>
+        <p>Use the button above to randomize between your playlists!</p>
+        break;
     case FullTrack track:
         <img class="w-100" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="@track.Name">
         <div class="w-100">
