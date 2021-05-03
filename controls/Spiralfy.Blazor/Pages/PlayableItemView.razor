@@ -1,8 +1,8 @@
 ﻿@switch (Item)
 {
     case FullTrack track:
-        <img class="card-img-top" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="@track.Name">
-        <div class="card-body">
+        <img class="w-100" style="object-fit: cover" src="@track.Album.Images.First().Url" alt="@track.Name">
+        <div class="w-100">
             <div>
                 <h4 class="card-title">@track.Name</h4>
                 <p>@track.Album.Name</p>
@@ -11,8 +11,8 @@
         </div>
         break;
     case FullEpisode episode:
-        <img class="card-img-top" src="@episode.Images.First().Url" alt="@episode.Name">
-        <div class="card-body">
+        <img class="w-100" src="@episode.Images.First().Url" alt="@episode.Name">
+        <div class="w-100">
             <div>
                 <h4>@episode.Name</h4>
                 <p>@episode.Show.Name</p>
