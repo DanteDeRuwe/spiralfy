@@ -10,6 +10,7 @@ namespace Spiralfy.Blazor
         {
             // services.AddScoped<ISpiralfyPlayer, SpiralfyPlayer>();
             // services.AddScoped<ISpiralfyService, SpiralfyService>();
+            services.AddBlazorContextMenu();
         }
     }
 }

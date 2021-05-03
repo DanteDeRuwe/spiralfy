@@ -1,5 +1,5 @@
-﻿#playlist-randomize{
-    width: 25rem;
+#playlist-randomize{
+  width: 100%;
     color: inherit;
 }
 #playlist-randomize:before{

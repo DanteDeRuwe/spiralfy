@@ -1,10 +1,10 @@
-@attribute [PiralExtension("homepage")]
+@page "/"
 @using System.Timers
 @inject NavigationManager _navManager
 
 @if (!_loggedIn)
 {
-    <div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
+    <div class="container">
         <small>Please log in.</small>
     </div>
     return;
@@ -12,32 +12,30 @@
 
 @if (_activeDevice is null)
 {
-    <div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
+    <div class="container">
         <small>This player requires an active Spotify device (for now). <br/>You should try to play something on one of your Spotify devices!</small>
     </div>
     return;
 }
 
-<div class="container d-flex flex-column align-items-center" style="margin-top: 10rem; gap: 3rem;">
-    <PlaylistsRandomizer Player="@_player" Service="@_service" @ref="_playlistsRandomizer"/>
-    <div class="container" style="width: 25rem;">
-        
-        <PlayableItemView Item="@_currentlyPlaying"/>
+<div class="container d-flex flex-column align-items-center" style="width: 25rem; gap:3rem;">
 
-        <div class="d-flex justify-content-around mb-2">
-            <button @onclick="Previous" class="Button px-4">
-                <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff" alt="previous"/>
-            </button>
-            <button @onclick="PlayPause" class="Button px-4" data-primary="true">
-                <img src="https://api.iconify.design/fa-solid:@(_playing ? "pause" : "play").svg?height=16&color=%23ffffff" alt="play or pause"/>
-            </button>
-            <button @onclick="Next" class="Button px-4">
-                <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff" alt="next"/>
-            </button>
-            <button @onclick="PlaySurprise" class="Button px-4">
-                <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff" alt="play a surprise"/>
-            </button>
-        </div>
+    <PlaylistsRandomizer Player="@_player" Service="@_service" @ref="_playlistsRandomizer"/>
+    <PlayableItemView Item="@_currentlyPlaying"/>
+
+    <div class="d-flex justify-content-between w-100 my-2">
+        <button @onclick="Previous" class="Button px-4">
+            <img src="https://api.iconify.design/fa-solid:step-backward.svg?height=16&color=%23ffffff" alt="previous"/>
+        </button>
+        <button @onclick="PlayPause" class="Button px-4" data-primary="true">
+            <img src="https://api.iconify.design/fa-solid:@(_playing ? "pause" : "play").svg?height=16&color=%23ffffff" alt="play or pause"/>
+        </button>
+        <button @onclick="Next" class="Button px-4">
+            <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff" alt="next"/>
+        </button>
+        <button @onclick="PlaySurprise" class="Button px-4">
+            <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff" alt="play a surprise"/>
+        </button>
     </div>
 </div>
 
@@ -51,7 +49,7 @@
     private ISpiralfyPlayer _player;
     private ISpiralfyService _service;
     private bool _loggedIn;
-    
+
     private PlaylistsRandomizer _playlistsRandomizer;
 
     protected override async Task OnInitializedAsync()
@@ -122,4 +120,5 @@
         await _player.Previous();
         await PollApi();
     }
+
 }
