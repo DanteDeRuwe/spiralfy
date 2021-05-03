@@ -1,0 +1,26 @@
+diff --git a/node_modules/@gilbarbara/react-range-slider/esm/styles.js b/node_modules/@gilbarbara/react-range-slider/esm/styles.js
+index 5c40664..2d3fd1f 100644
+--- a/node_modules/@gilbarbara/react-range-slider/esm/styles.js
++++ b/node_modules/@gilbarbara/react-range-slider/esm/styles.js
+@@ -9,7 +9,7 @@ var __assign = (this && this.__assign) || function () {
+     };
+     return __assign.apply(this, arguments);
+ };
+-import * as deepmerge from 'deepmerge';
++import deepmerge from 'deepmerge';
+ import { num } from './utils';
+ var defaultOptions = {
+     height: '20px',
+diff --git a/node_modules/@gilbarbara/react-range-slider/lib/styles.js b/node_modules/@gilbarbara/react-range-slider/lib/styles.js
+index 72549c9..7296898 100644
+--- a/node_modules/@gilbarbara/react-range-slider/lib/styles.js
++++ b/node_modules/@gilbarbara/react-range-slider/lib/styles.js
+@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
+     return __assign.apply(this, arguments);
+ };
+ Object.defineProperty(exports, "__esModule", { value: true });
+-var deepmerge = require("deepmerge");
++var deepmerge = require("deepmerge").default;
+ var utils_1 = require("./utils");
+ var defaultOptions = {
+     height: '20px',
