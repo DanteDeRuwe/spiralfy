@@ -26,8 +26,8 @@
         <button @onclick="Next" class="Button px-4">
             <img src="https://api.iconify.design/fa-solid:step-forward.svg?height=16&color=%23ffffff" alt="next"/>
         </button>
-        <button @onclick="PlaySurprise" class="Button px-4">
-            <img src="https://api.iconify.design/ph:circle-wavy-question-light.svg?height=16&color=%23ffffff" alt="play a surprise"/>
+        <button @onclick="ToggleFavorite" class="Button px-4">
+            <img src="https://api.iconify.design/clarity:heart-@(_favorite ? "solid" : "line").svg?height=16&color=%23@(_favorite? "1ed45f" : "ffffff")" alt="play a surprise"/>
         </button>
     </div>
 </div>
@@ -35,8 +35,6 @@
 @code {
     bool _playing;
     private IPlayableItem _currentlyPlaying;
-    private IPlayableItem _surpriseTrack;
-    private Device _activeDevice;
     private readonly Timer _timer = new() { Interval = 3000 };
     private string _token;
     private ISpiralfyPlayer _player;
@@ -44,6 +42,7 @@
     private bool _loggedIn;
 
     private PlaylistsRandomizer _playlistsRandomizer;
+    private bool _favorite;
 
     protected override async Task OnInitializedAsync()
     {
@@ -62,8 +61,6 @@
         {
             return;
         }
-
-        _surpriseTrack = await _service.GetTrack("4cOdK2wGLETKBW3PvgPWqT");
 
         await PollApi();
         SetPollingTimer();
@@ -85,15 +82,16 @@
         StateHasChanged();
         _playing = await _player.IsPlaying();
         StateHasChanged();
-        _activeDevice = await _service.GetActiveDevice();
+        if(_currentlyPlaying is not null) _favorite = await _service.IsFavorite(_currentlyPlaying);
         StateHasChanged();
         await _playlistsRandomizer.Update();
     }
 
-    async Task PlaySurprise()
+    async Task ToggleFavorite()
     {
-        await _player.Play(_surpriseTrack);
-        _playing = true;
+        _favorite = !_favorite; //optimistic update
+        StateHasChanged();
+        _favorite = await _service.ToggleFavorite(_currentlyPlaying);
     }
 
     async Task PlayPause()
