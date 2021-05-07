@@ -40,19 +40,16 @@
 
 ---
 
-<!-- TODO -->
-<!--
 ## Article
 
 <figure>
 <center>
-<a target="_blank" href="https://dev.to/dantederuwe/">
+<a target="_blank" href="https://dev.to/dantederuwe/switching-up-your-spotify-experience-with-microfrontends-and-blazor-4k72">
 <img src="https://i.imgur.com/JqW4EnU.jpg">
 <figcaption>In this DEVCommunity article, I share my experiences creating a microfrontend web app with Blazor and Piral. I also give a little behind-the-scenes look at how this was made possible.</figcaption>
 </a>
 </center>
 </figure>
--->
 
 ## About
 
