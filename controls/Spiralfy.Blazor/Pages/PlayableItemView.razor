@@ -1,4 +1,4 @@
-﻿@switch (Item)
+@switch (Item)
 {
     case FullTrack track when track.Uri.Contains("2bNCdW4rLnCTzgqUXTTDO1"): 
         // This track is 4'33 by John Cage: 4 minutes and 33 seconds of silence
@@ -27,6 +27,11 @@
                     <small>@episode.Description</small>
                 </details>
             </div>
+        </div>
+        break;
+    default:
+        <div class="spinner-border text-light" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
         break;
 }

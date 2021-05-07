@@ -1,8 +1,9 @@
 import { createBlazorApi } from 'piral-blazor';
-import { createInstance, Piral, SetErrors, SetLayout } from 'piral-core';
+import { createInstance, Piral, SetErrors, SetLayout, SetRoute } from 'piral-core';
 import { createMenuApi } from 'piral-menu';
 import * as React from 'react';
 import { render } from 'react-dom';
+import About from './components/About';
 import { errors, layout } from './layout';
 
 // change to your feed URL here (either using feed.piral.cloud or your own service)
@@ -21,6 +22,7 @@ const piral = (
   <Piral instance={instance}>
     <SetLayout layout={layout} />
     <SetErrors errors={errors} />
+    <SetRoute path="/" component={About} />
   </Piral>
 );
 

@@ -10,5 +10,7 @@ namespace Spiralfy.Core.Interfaces
         public Task<FullTrack> GetTrack(string trackId);
         public Task<Device> GetActiveDevice();
         public Task<IReadOnlyCollection<SimplePlaylist>> GetUserPlaylists();
+        public Task<bool> ToggleFavorite(IPlayableItem item);
+        public Task<bool> IsFavorite(IPlayableItem item);
     }
 }
