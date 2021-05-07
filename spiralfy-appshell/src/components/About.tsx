@@ -17,6 +17,15 @@ const About: React.FC = () => (
           Unfortunately, you will need a <b>Spotify Premium account</b> to use Spiralfy. If you have one, great! Log in
           using the button in the header!
         </p>
+        <p>
+          If you want to know more about Spiralfy, you can read&nbsp;
+          <a
+            className="link"
+            href="https://dev.to/dantederuwe/switching-up-your-spotify-experience-with-microfrontends-and-blazor-4k72"
+          >
+            this article!
+          </a>
+        </p>
       </div>
     </div>
   </div>
