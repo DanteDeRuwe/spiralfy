@@ -6,7 +6,8 @@ const Logo: React.FC = () => {
   const logoLocationDescriptor = { ...loc, pathname: '/' }; //keep the url query strings etc
 
   return (
-    <div className="Logo" style={{ fontWeight: 'bold', fontSize: '2rem' }}>
+    <div className="Logo">
+      <img src="https://i.imgur.com/np3G6lO.png" style={{ height: '2rem' }} />
       <Link to={logoLocationDescriptor}>Spiralfy</Link>
     </div>
   );

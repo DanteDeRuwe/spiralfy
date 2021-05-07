@@ -61,6 +61,14 @@ a {
   height: 41px;
   color: $green;
   transition: all 0.125s ease;
+  font-weight: bold;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-right: 0.7rem;
+  }
 
   &:hover {
     color: lighten($green, 20);
