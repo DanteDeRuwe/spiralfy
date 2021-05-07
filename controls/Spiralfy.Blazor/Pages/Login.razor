@@ -21,7 +21,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         var token = new Uri(_navManager.Uri).ExtractAccessToken();
-        var redirectUri = _navManager.ToAbsoluteUri(_navManager.BaseUri);
+        var redirectUri = _navManager.ToAbsoluteUri(_navManager.BaseUri + "play/");
         var loginRequest = new LoginRequest(redirectUri, "a8e9b67342b740479fcb00609a46d354", LoginRequest.ResponseType.Token)
         {
             Scope = new[]

@@ -1,4 +1,4 @@
-@page "/"
+@page "/play"
 @using System.Timers
 @inject NavigationManager _navManager
 
@@ -84,7 +84,11 @@
         StateHasChanged();
         if(_currentlyPlaying is not null) _favorite = await _service.IsFavorite(_currentlyPlaying);
         StateHasChanged();
-        await _playlistsRandomizer.Update();
+        try
+        {
+            await _playlistsRandomizer.Update();
+        }
+        catch { }
     }
 
     async Task ToggleFavorite()
