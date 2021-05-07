@@ -21,6 +21,11 @@ a {
   color: inherit !important;
 }
 
+a.link {
+  color: $green !important;
+  text-decoration: underline !important;
+}
+
 b {
   font-weight: bold;
 }
