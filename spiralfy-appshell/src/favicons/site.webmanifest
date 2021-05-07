@@ -1,19 +1,19 @@
 {
-    "name": "Spiralfy",
-    "short_name": "Spiralfy",
-    "icons": [
-        {
-            "src": "/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/android-chrome-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png"
-        }
-    ],
-    "theme_color": "#18d55f",
-    "background_color": "#18d55f",
-    "display": "standalone"
+  "name": "Spiralfy",
+  "short_name": "Spiralfy",
+  "icons": [
+    {
+      "src": "/favicons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicons/android-chrome-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#18d55f",
+  "background_color": "#18d55f",
+  "display": "standalone"
 }
